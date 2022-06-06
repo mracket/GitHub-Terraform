@@ -9,7 +9,7 @@ on:
   push:
     paths:
       - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001/*.tf'
-  branches:
+    branches:
       - main
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
