@@ -1,25 +1,28 @@
-# This is a basic workflow to help you get started with Actions
-
+# Name of the action
 name: rg-connectivity-001
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+  # Triggers the workflow on changes to the terraform files in the path
+  # Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001/
+  # Action will only trigger on the main branch
   push:
     paths:
       - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001/*.tf'
-
+  branches:
+      - main
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  resourcegroups:
+  # This action only has one job called Connectivity
+  Connectivity:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    
-    name: 'rg-connectivity-001'
+        
+    # Setting environment variables
+    # Variables are used by Terraform to authenticate to Azure
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -31,19 +34,21 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
+      # Initialize Terraform
       - name: 'Terraform init'
         id: init
         run: |
           cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001
           terraform init
 
+      # Create Terraform plan
       - name: 'Terraform plan'
         id: plan
         run: |
           cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001
           terraform plan
-          
+      
+      # Deploy the planned resources to Azure using Terraform
       - name: 'Terraform apply'
         id: apply
         run: |
