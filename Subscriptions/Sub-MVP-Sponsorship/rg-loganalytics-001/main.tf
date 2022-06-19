@@ -9,4 +9,7 @@ resource "azurerm_log_analytics_workspace" "rg-loganalytics-001" {
   resource_group_name = var.ResourceGroup
   sku                 = var.LogAnalytics.SKU
   retention_in_days   = var.LogAnalytics.LogRentensionInDays
+  depends_on = [
+    azurerm_resource_group.resourcegroups
+  ]
 }
