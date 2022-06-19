@@ -30,3 +30,17 @@ variable "Subnets" {
         }
     }
 }
+
+variable "LocalGateway" {
+  type = map
+  default = {
+    "gateway_address"                 = "85.191.74.87"
+    "subnet1"                         = "192.168.1.0/24"
+    "subnet2"                         = "192.168.10.0/24"    
+  }  
+}
+
+variable "pre-shared-key" {
+  type = string
+  default = "jdaskldja874231jkda8131"
+}
