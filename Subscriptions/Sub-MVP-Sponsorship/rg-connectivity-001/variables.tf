@@ -34,7 +34,7 @@ variable "Subnets" {
 variable "LocalGateway" {
   type = map
   default = {
-    "gateway_address"                 = "85.191.74.87"
+    "gateway_address"                 = "10.10.10.10"
     "subnet1"                         = "192.168.1.0/24"
     "subnet2"                         = "192.168.10.0/24"    
   }  
