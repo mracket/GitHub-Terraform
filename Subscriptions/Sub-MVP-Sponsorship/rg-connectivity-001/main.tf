@@ -6,19 +6,17 @@ resource "azurerm_resource_group" "resourcegroup" {
 resource "azurerm_virtual_network" "vnet" {
   name                = var.vnet.vNetName
   address_space       = var.vnet.address_space
-  location            = var.Location
-  resource_group_name = var.ResourceGroup
+  location            = azurerm_resource_group.resourcegroup.location
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 
-  depends_on = [
-    azurerm_resource_group.resourcegroup
-  ]
+  
 }
 
 resource "azurerm_subnet" "subnets" {
   for_each = var.Subnets
   name                 = each.value["name"]
-  resource_group_name  = var.ResourceGroup
-  virtual_network_name = var.vnet.vNetName
+  resource_group_name  = azurerm_resource_group.resourcegroup.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = each.value["prefix"]
   
   depends_on = [
@@ -28,8 +26,8 @@ resource "azurerm_subnet" "subnets" {
 
 resource "azurerm_public_ip" "VPN-PublicIP" {
   name                = "pip-vgw-connectivity-001"
-  location            = var.Location
-  resource_group_name = var.ResourceGroup
+  location            = azurerm_resource_group.resourcegroup.location
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 
   allocation_method = "Dynamic"
   depends_on = [azurerm_virtual_network.vnet]
@@ -37,8 +35,8 @@ resource "azurerm_public_ip" "VPN-PublicIP" {
 
 resource "azurerm_virtual_network_gateway" "VPN-Gateway" {
   name                = "vgw-connectivity-001"
-  location            = var.Location
-  resource_group_name = var.ResourceGroup
+  location            = azurerm_resource_group.resourcegroup.location
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 
   type     = "Vpn"
   vpn_type = "RouteBased"
@@ -56,29 +54,24 @@ resource "azurerm_virtual_network_gateway" "VPN-Gateway" {
   timeouts {
     create = "120m"
   }
-  depends_on = [azurerm_public_ip.VPN-PublicIP]
 }
 
 resource "azurerm_local_network_gateway" "LocalGateway" {
   name                = "lgw-onpremises-001"
-  location            = var.Location
-  resource_group_name = var.ResourceGroup
+  location            = azurerm_virtual_network.vnet.location
+  resource_group_name = azurerm_resource_group.resourcegroup.name
   gateway_address     = var.LocalGateway.gateway_address
   address_space       = [var.LocalGateway.subnet2,var.LocalGateway.subnet1]
-
-  depends_on = [azurerm_virtual_network.vnet]
 }
 
 resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
   name                = "vcn-onpremises-001"
-  location            = var.Location
-  resource_group_name = var.ResourceGroup
+  location            = azurerm_resource_group.resourcegroup.location
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 
   type                       = "IPsec"
   virtual_network_gateway_id = azurerm_virtual_network_gateway.VPN-Gateway.id
   local_network_gateway_id   = azurerm_local_network_gateway.LocalGateway.id
 
   shared_key = var.pre-shared-key
-
-  depends_on = [azurerm_virtual_network_gateway.VPN-Gateway, azurerm_local_network_gateway.LocalGateway]
 }
