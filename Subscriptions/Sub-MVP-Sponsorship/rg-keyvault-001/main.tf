@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "resourcegroups" {
 }
 
 resource "azurerm_key_vault" "keyvault" {
-  name                            = "kv-vpn-001"
+  name                            = "kv-cloudninja-vpn-001"
   location                        = azurerm_resource_group.resourcegroups.location
   resource_group_name             = azurerm_resource_group.resourcegroups.name
   enabled_for_disk_encryption     = true
