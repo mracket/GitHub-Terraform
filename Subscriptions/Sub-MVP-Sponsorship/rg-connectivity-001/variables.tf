@@ -39,8 +39,3 @@ variable "LocalGateway" {
     "subnet2"                         = "192.168.10.0/24"    
   }  
 }
-
-variable "pre-shared-key" {
-  type = string
-  default = "jdaskldja874231jkda8131"
-}
