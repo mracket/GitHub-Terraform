@@ -5,7 +5,7 @@ data "azurerm_key_vault" "kv-cloudninja-vpn-001" {
 
 data "azurerm_key_vault_secret" "VPNSharedSecret" {
   name         = "VPNSharedSecret"
-  key_vault_id = data.azurerm_key_vault.existing.id
+  key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-001.id
 }
 
 resource "azurerm_resource_group" "resourcegroup" {
