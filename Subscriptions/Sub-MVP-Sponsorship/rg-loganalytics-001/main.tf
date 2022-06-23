@@ -5,11 +5,8 @@ resource "azurerm_resource_group" "resourcegroups" {
 
 resource "azurerm_log_analytics_workspace" "rg-loganalytics-001" {
   name                = var.LogAnalytics.Name
-  location            = var.Location
-  resource_group_name = var.ResourceGroup
+  location            = azurerm_resource_group.resourcegroups.location
+  resource_group_name = azurerm_resource_group.resourcegroups.name
   sku                 = var.LogAnalytics.SKU
-  retention_in_days   = var.LogAnalytics.LogRentensionInDays
-  depends_on = [
-    azurerm_resource_group.resourcegroups
-  ]
+  retention_in_days   = var.LogAnalytics.LogRentensionInDays  
 }
