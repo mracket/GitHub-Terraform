@@ -21,12 +21,10 @@ variable "Subnets" {
         "GatewaySubnet" = {
             "name"      = "GatewaySubnet"
             "prefix"    = ["172.16.0.0/26"]
-            "routeTable" = "rt-vnet-connectivity-gateway-001"
         }
         "FirewallSubnet" = {
             "name" = "AzureFirewallSubnet"
             "prefix" = ["172.16.0.64/26"]
-            "routeTable" = "rt-vnet-connectivity-firewall-001"
         }
     }
 }
@@ -37,5 +35,13 @@ variable "LocalGateway" {
     "gateway_address"                 = "10.10.10.10"
     "subnet1"                         = "192.168.1.0/24"
     "subnet2"                         = "192.168.10.0/24"    
+  }  
+}
+
+
+variable "RemotevNet" {
+  default = {
+    "name"              = "vnet-avd-001"
+    "resourcegroup"     = "rg-avd-network-001"
   }  
 }

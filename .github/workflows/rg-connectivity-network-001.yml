@@ -5,7 +5,7 @@ on:
   # Action will only trigger on the main branch
   push:
     paths:
-      - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001/*.tf'
+      - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001/*.tf'
     branches:
       - main
       
