@@ -4,7 +4,7 @@ data "azurerm_virtual_network" "RemotevNet" {
 }
 
 resource "azurerm_virtual_network_peering" "AVD-To-Connectivity" {
-  name                      = "AVD-To-Connectivity"
+  name                      = "Connectivity-To-AVD"
   resource_group_name       = azurerm_resource_group.resourcegroup.name
   virtual_network_name      = azurerm_virtual_network.vnet.name
   remote_virtual_network_id = data.azurerm_virtual_network.RemotevNet.id
