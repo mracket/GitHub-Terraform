@@ -37,10 +37,10 @@ variable "LocalGateway" {
   }  
 }
 
-
 variable "RemotevNet" {
   default = {
+    "connectionname"    = "Connectivity-To-AVD"
     "name"              = "vnet-avd-001"
-    "resourcegroup"     = "rg-avd-network-001"
+    "resourcegroup"     = "rg-avd-network-001"    
   }  
 }
