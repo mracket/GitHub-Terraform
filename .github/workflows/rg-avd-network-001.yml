@@ -36,19 +36,19 @@ jobs:
       - name: 'Terraform init'
         id: init
         run: |
-          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
           terraform init
 
       # Create Terraform plan
       - name: 'Terraform plan'
         id: plan
         run: |
-          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
           terraform plan
       
       # Deploy the planned resources to Azure using Terraform
       - name: 'Terraform apply'
         id: apply
         run: |
-          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
           terraform apply -auto-approve
