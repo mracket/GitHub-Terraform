@@ -8,6 +8,11 @@ data "azurerm_key_vault_secret" "VPNSharedSecret" {
   key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-001.id
 }
 
+data "azurerm_key_vault_secret" "PublicIP" {
+  name         = "PublicIP"
+  key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-001.id
+}
+
 resource "azurerm_resource_group" "resourcegroup" {
     name        = var.ResourceGroup
     location    = var.Location
@@ -70,7 +75,7 @@ resource "azurerm_local_network_gateway" "LocalGateway" {
   name                = "lgw-onpremises-001"
   location            = azurerm_virtual_network.vnet.location
   resource_group_name = azurerm_resource_group.resourcegroup.name
-  gateway_address     = var.LocalGateway.gateway_address
+  gateway_address     = data.azurerm_key_vault_secret.PublicIP.value
   address_space       = [var.LocalGateway.subnet2,var.LocalGateway.subnet1]
 }
 
