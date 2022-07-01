@@ -96,9 +96,7 @@ data "azurerm_subnet" "AzureFirewallSubnet" {
   resource_group_name = azurerm_virtual_network.vnet.resource_group_name
   depends_on = [
     azurerm_subnet.subnets
-  ]
-  
-  
+  ] 
 }
 resource "azurerm_public_ip" "public-ip-AzureFirewall" {
   name                = "pip-${var.AzureFirewallName}"
@@ -107,7 +105,6 @@ resource "azurerm_public_ip" "public-ip-AzureFirewall" {
   allocation_method   = "Static"
   sku                 = "Standard"
 }
-
 resource "azurerm_firewall" "AzureFirewall" {
   name                = var.AzureFirewallName
   location            = azurerm_resource_group.resourcegroup.location
