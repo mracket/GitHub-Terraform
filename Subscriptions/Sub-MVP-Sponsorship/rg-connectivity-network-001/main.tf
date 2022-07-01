@@ -92,18 +92,14 @@ resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
 }
 data "azurerm_subnet" "AzureFirewallSubnet" {
   filter {
-        name   = "subnetName"
-        values = [azurerm_subnet.subnets.name]
-      }
-
-      Name = {
-        Name = "AzureFirewallSubnet"
-      }
-  name                = azurerm_subnet.subnets[each.key["AzureFirewallSubnet"]]
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-  depends_on = [
-    azurerm_subnet.subnets
-  ]
+    name   = "subnetName"
+    values = [azurerm_subnet.subnets.name]
+  }
+  Name = {
+    Name = "AzureFirewallSubnet"
+  }
+  
+  
 }
 resource "azurerm_public_ip" "public-ip-AzureFirewall" {
   name                = "pip-${var.AzureFirewallName}"
