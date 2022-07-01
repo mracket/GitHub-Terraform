@@ -43,10 +43,6 @@ resource "azurerm_route_table" "routes" {
     address_prefix = "23.102.135.246/32"
     next_hop_type  = "Internet"
   }
-
-  tags = {
-    environment = "Production"
-  }
 }
 resource "azurerm_subnet_route_table_association" "routetableassociation" {
   for_each = var.Subnets
