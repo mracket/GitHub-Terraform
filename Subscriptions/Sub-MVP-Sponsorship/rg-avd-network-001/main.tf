@@ -41,7 +41,7 @@ resource "azurerm_route_table" "routes" {
   route {
     name           = "udr-azure-kms"
     address_prefix = "23.102.135.246/32"
-    next_hop_type  = "internet"
+    next_hop_type  = "Internet"
   }
 
   tags = {
