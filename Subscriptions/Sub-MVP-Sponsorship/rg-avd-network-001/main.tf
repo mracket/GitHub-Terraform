@@ -28,3 +28,9 @@ resource "azurerm_network_security_group" "networksecuritygroups" {
   location            = azurerm_resource_group.resourcegroup.location
   resource_group_name = azurerm_resource_group.resourcegroup.name  
 }
+
+resource "azurerm_subnet_network_security_group_association" "nsg_association" {
+  for_each = var.Subnets
+  subnet_id                 = azurerm_subnet.subnets["name"].id
+  network_security_group_id = azurerm_network_security_group.networksecuritygroups["name"].id
+}
