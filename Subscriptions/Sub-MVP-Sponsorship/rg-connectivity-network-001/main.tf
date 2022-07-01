@@ -90,6 +90,7 @@ resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
 
   shared_key = data.azurerm_key_vault_secret.VPNSharedSecret.value
 }
+/*
 data "azurerm_subnet" "AzureFirewallSubnet" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   name = "AzureFirewallSubnet"
@@ -118,3 +119,4 @@ resource "azurerm_firewall" "AzureFirewall" {
     public_ip_address_id = azurerm_public_ip.public-ip-AzureFirewall.id
   }
 }
+*/
