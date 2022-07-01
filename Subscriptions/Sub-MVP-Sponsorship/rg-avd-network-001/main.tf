@@ -7,9 +7,7 @@ resource "azurerm_virtual_network" "vnet" {
   name                = var.vnet.vNetName
   address_space       = var.vnet.address_space
   location            = azurerm_resource_group.resourcegroup.location
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-
-  
+  resource_group_name = azurerm_resource_group.resourcegroup.name 
 }
 resource "azurerm_subnet" "subnets" {
   for_each = var.Subnets
@@ -33,4 +31,25 @@ resource "azurerm_subnet_network_security_group_association" "nsg_association" {
   for_each = var.Subnets
   subnet_id                 = azurerm_subnet.subnets[each.value["name"]].id
   network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.value["name"]].id 
+}
+resource "azurerm_route_table" "routes" {
+  name                          = "rt-${azurerm_virtual_network.vnet.name}"
+  location                      = azurerm_resource_group.resourcegroup.location
+  resource_group_name           = azurerm_resource_group.resourcegroup.name
+  disable_bgp_route_propagation = false
+
+  route {
+    name           = "udr-azure-kms"
+    address_prefix = "23.102.135.246/32"
+    next_hop_type  = "internet"
+  }
+
+  tags = {
+    environment = "Production"
+  }
+}
+resource "azurerm_subnet_route_table_association" "routetableassociation" {
+  for_each = var.Subnets
+  subnet_id      = azurerm_subnet.subnets[each.value["name"]].id
+  route_table_id = azurerm_route_table.routes.id
 }
