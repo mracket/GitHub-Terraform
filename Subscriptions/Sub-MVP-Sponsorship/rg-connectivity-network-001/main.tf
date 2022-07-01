@@ -91,6 +91,14 @@ resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
   shared_key = data.azurerm_key_vault_secret.VPNSharedSecret.value
 }
 data "azurerm_subnet" "AzureFirewallSubnet" {
+  filter {
+        name   = "subnetName"
+        values = [azurerm_subnet.subnets.name]
+      }
+
+      Name = {
+        Name = "AzureFirewallSubnet"
+      }
   name                = azurerm_subnet.subnets[each.key["AzureFirewallSubnet"]]
   resource_group_name = azurerm_resource_group.resourcegroup.name
   depends_on = [
