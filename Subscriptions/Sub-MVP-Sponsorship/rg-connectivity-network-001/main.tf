@@ -104,7 +104,7 @@ resource "azurerm_firewall" "AzureFirewall" {
   location            = azurerm_resource_group.resourcegroup.location
   resource_group_name = azurerm_resource_group.resourcegroup.name
   sku_name            = "AZFW_VNet"
-  sku_tier            = "Basic"
+  sku_tier            = "Standard"
 
   ip_configuration {
     name                 = "configuration"
