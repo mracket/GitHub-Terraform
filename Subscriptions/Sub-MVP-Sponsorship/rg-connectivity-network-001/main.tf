@@ -90,6 +90,13 @@ resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
 
   shared_key = data.azurerm_key_vault_secret.VPNSharedSecret.value
 }
+data "azurerm_subnet" "AzureFirewallSubnet" {
+  name                = azurerm_subnet.subnets[each.key["AzureFirewallSubnet"]]
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  depends_on = [
+    azurerm_subnet.subnets
+  ]
+}
 resource "azurerm_public_ip" "public-ip-AzureFirewall" {
   name                = "pip-${var.AzureFirewallName}"
   location            = azurerm_resource_group.resourcegroup.location
@@ -107,7 +114,7 @@ resource "azurerm_firewall" "AzureFirewall" {
 
   ip_configuration {
     name                 = "configuration"
-    subnet_id            = azurerm_subnet.subnets[each.key["AzureFirewallSubnet"]].id
+    subnet_id            = data.azurerm_subnet.AzureFirewallSubnet.id
     public_ip_address_id = azurerm_public_ip.public-ip-AzureFirewall.id
   }
 }
