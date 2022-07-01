@@ -26,8 +26,5 @@ resource "azurerm_network_security_group" "networksecuritygroups" {
   for_each = var.Subnets
   name                = "nsg-${each.value["name"]}"
   location            = azurerm_resource_group.resourcegroup.location
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-
-  security_rule {
-  }
+  resource_group_name = azurerm_resource_group.resourcegroup.name  
 }
