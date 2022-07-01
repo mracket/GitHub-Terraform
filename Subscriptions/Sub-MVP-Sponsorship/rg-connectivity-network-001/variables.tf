@@ -44,3 +44,7 @@ variable "RemotevNet" {
     "resourcegroup"     = "rg-avd-network-001"    
   }  
 }
+variable "AzureFirewallName" {
+  type = string
+  default = "afw-connectivity-001"
+}
