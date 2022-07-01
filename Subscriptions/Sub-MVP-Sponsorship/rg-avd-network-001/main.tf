@@ -11,7 +11,6 @@ resource "azurerm_virtual_network" "vnet" {
 
   
 }
-
 resource "azurerm_subnet" "subnets" {
   for_each = var.Subnets
   name                 = each.value["name"]
