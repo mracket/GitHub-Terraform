@@ -43,6 +43,12 @@ resource "azurerm_route_table" "routes" {
     address_prefix = "23.102.135.246/32"
     next_hop_type  = "Internet"
   }
+  route {
+    name                    = "udr-internet"
+    address_prefix          = "0.0.0.0/0"
+    next_hop_type           = "VirtualAppliance"
+    next_hop_in_ip_address  = "172.16.0.68"
+  }
 }
 resource "azurerm_subnet_route_table_association" "routetableassociation" {
   for_each = var.Subnets
