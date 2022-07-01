@@ -31,6 +31,6 @@ resource "azurerm_network_security_group" "networksecuritygroups" {
 
 resource "azurerm_subnet_network_security_group_association" "nsg_association" {
   for_each = var.Subnets
-  subnet_id                 = azurerm_subnet.subnets[each.key].name.id
-  network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.key].name.id 
+  subnet_id                 = azurerm_subnet.subnets[each.key.name].id
+  network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.key.name].id 
 }
