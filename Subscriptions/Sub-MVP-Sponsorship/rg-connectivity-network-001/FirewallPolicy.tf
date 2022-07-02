@@ -33,7 +33,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
     action   = "Allow"
     rule {
       name                  = "rule-avd-to-onpremises"
-      protocols             = ["TCP", "UDP"]
+      protocols             = ["TCP", "UDP","ICMP"]
       source_addresses      = ["172.17.0.0/16"]
       destination_addresses = ["192.168.1.0/24", "192.168.10.0/24"]
       destination_ports     = ["*"] 
@@ -51,7 +51,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallOnPremisesRule
     action   = "Allow"
     rule {
       name                  = "rule-onpremises-to-avd"
-      protocols             = ["TCP", "UDP"]
+      protocols             = ["TCP", "UDP", "ICMP"]
       source_addresses      = ["192.168.1.0/24", "192.168.10.0/24"]
       destination_addresses = ["172.17.0.0/16"]
       destination_ports     = ["*"] 
