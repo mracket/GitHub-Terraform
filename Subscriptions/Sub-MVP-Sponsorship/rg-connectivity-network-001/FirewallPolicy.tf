@@ -5,9 +5,9 @@ data "azurerm_firewall_policy" "AzureFirewallPolicy" {
 }
 
 resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollection" {
-  name               = "example-fwpolicy-rcg"
+  name               = "rcg-avd"
   firewall_policy_id = data.azurerm_firewall_policy.AzureFirewallPolicy.id
-  priority           = 500
+  priority           = 1000
   application_rule_collection {
     name     = "rc_avd_webbrowsing"
     priority = 5000
