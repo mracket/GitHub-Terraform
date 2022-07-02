@@ -5,7 +5,7 @@ on:
   # Action will only trigger on the main branch
   push:
     paths:
-      - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001/*.tf'
+      - 'Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001/*.tf'
     branches:
       - issue-5-Add_route_tables_to_subnets
       
@@ -36,19 +36,19 @@ jobs:
       - name: 'Terraform init'
         id: init
         run: |
-          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
           terraform init
 
       # Create Terraform plan
       - name: 'Terraform plan'
         id: plan
         run: |
-          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
           terraform plan
       
       # Deploy the planned resources to Azure using Terraform
       - name: 'Terraform apply'
         id: apply
         run: |
-          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
           terraform apply -auto-approve
