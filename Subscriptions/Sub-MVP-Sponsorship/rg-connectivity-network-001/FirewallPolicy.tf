@@ -36,6 +36,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
       protocols             = ["TCP", "UDP"]
       source_addresses      = ["172.17.0.0/16"]
       destination_addresses = ["192.168.1.0/24", "192.168.10.0/24"]
+      destination_ports     = ["*"] 
     }
   } 
 }
