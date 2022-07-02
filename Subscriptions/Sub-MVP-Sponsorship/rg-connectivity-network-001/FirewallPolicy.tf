@@ -1,6 +1,12 @@
+data "azurerm_firewall_policy" "AzureFirewallPolicy" {
+    name = "afwp-connectivity-001"
+    resource_group_name = azurerm_resource_group.resourcegroup.name
+
+}
+
 resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollection" {
   name               = "example-fwpolicy-rcg"
-  firewall_policy_id = azurerm_firewall_policy.FirewallPolicy.id
+  firewall_policy_id = data.azurerm_firewall_policy.AzureFirewallPolicy.id
   priority           = 500
   application_rule_collection {
     name     = "rc_avd_webbrowsing"
