@@ -40,7 +40,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
     }
   } 
 }
-resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollection" {
+resource "azurerm_firewall_policy_rule_collection_group" "FirewallOnPremisesRuleCollection" {
   name               = "rcg-onpremises"
   firewall_policy_id = data.azurerm_firewall_policy.AzureFirewallPolicy.id
   priority           = 1100
