@@ -30,7 +30,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
   network_rule_collection {
     name     = "rc_avd"
     priority = 5000
-    action   = "allow"
+    action   = "Allow"
     rule {
       name                  = "rule-avd-to-onpremises"
       protocols             = ["TCP", "UDP"]
