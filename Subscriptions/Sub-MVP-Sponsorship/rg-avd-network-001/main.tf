@@ -53,6 +53,18 @@ resource "azurerm_route_table" "routes" {
     next_hop_type           = "VirtualAppliance"
     next_hop_in_ip_address  = "172.16.0.68"
   }
+  route {
+    name                    = "udr-vpn-001"
+    address_prefix          = "192.168.1.0/24"
+    next_hop_type           = "VirtualAppliance"
+    next_hop_in_ip_address  = "172.16.0.68"
+  }
+  route {
+    name                    = "udr-vpn-002"
+    address_prefix          = "192.168.10.0/24"
+    next_hop_type           = "VirtualAppliance"
+    next_hop_in_ip_address  = "172.16.0.68"
+  }
 }
 resource "azurerm_subnet_route_table_association" "routetableassociation" {
   for_each = var.Subnets
