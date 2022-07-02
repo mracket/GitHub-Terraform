@@ -119,4 +119,10 @@ resource "azurerm_firewall" "AzureFirewall" {
     public_ip_address_id = azurerm_public_ip.public-ip-AzureFirewall.id
   }
 }
+
+resource "azurerm_firewall_policy" "FirewallPolicy" {
+  name                = "afwp-connectivity-001"
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  location            = azurerm_resource_group.resourcegroup.location
+}
 */
