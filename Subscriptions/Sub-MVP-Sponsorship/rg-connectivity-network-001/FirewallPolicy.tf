@@ -40,3 +40,21 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
     }
   } 
 }
+resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollection" {
+  name               = "rcg-onpremises"
+  firewall_policy_id = data.azurerm_firewall_policy.AzureFirewallPolicy.id
+  priority           = 1100
+  
+  network_rule_collection {
+    name     = "rc_onpremises"
+    priority = 1100
+    action   = "Allow"
+    rule {
+      name                  = "rule-onpremises-to-avd"
+      protocols             = ["TCP", "UDP"]
+      source_addresses      = ["192.168.1.0/24", "192.168.10.0/24"]
+      destination_addresses = ["172.17.0.0/16"]
+      destination_ports     = ["*"] 
+    }
+  } 
+}
