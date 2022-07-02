@@ -10,7 +10,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
   priority           = 500
   application_rule_collection {
     name     = "rc_avd_webbrowsing"
-    priority = 1000
+    priority = 5000
     action   = "Allow"
     rule {
       name = "rule_avd_webbrowsing"
@@ -29,7 +29,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
 
   network_rule_collection {
     name     = "rc_avd"
-    priority = 5000
+    priority = 1000
     action   = "Allow"
     rule {
       name                  = "rule-avd-to-onpremises"
