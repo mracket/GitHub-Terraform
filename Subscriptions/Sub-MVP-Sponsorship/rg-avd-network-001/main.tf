@@ -20,6 +20,7 @@ resource "azurerm_subnet" "subnets" {
     azurerm_virtual_network.vnet
   ] 
 }
+
 resource "azurerm_network_security_group" "networksecuritygroups" {
   for_each = var.Subnets
   name                = "nsg-${each.value["name"]}"
