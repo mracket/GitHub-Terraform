@@ -119,3 +119,40 @@ resource "azurerm_subnet_route_table_association" "routetableassociation" {
   subnet_id      = data.azurerm_subnet.subnets.id
   route_table_id = azurerm_route_table.routes.id
 }
+
+/*
+data "azurerm_subnet" "AzureFirewallSubnet" {
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  name = "AzureFirewallSubnet"
+  resource_group_name = azurerm_virtual_network.vnet.resource_group_name
+  depends_on = [
+    azurerm_subnet.subnets
+  ] 
+}
+resource "azurerm_public_ip" "public-ip-AzureFirewall" {
+  name                = "pip-${var.AzureFirewallName}"
+  location            = azurerm_resource_group.resourcegroup.location
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+resource "azurerm_firewall" "AzureFirewall" {
+  name                = var.AzureFirewallName
+  location            = azurerm_resource_group.resourcegroup.location
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  sku_name            = "AZFW_VNet"
+  sku_tier            = "Standard"
+
+  ip_configuration {
+    name                 = "configuration"
+    subnet_id            = data.azurerm_subnet.AzureFirewallSubnet.id
+    public_ip_address_id = azurerm_public_ip.public-ip-AzureFirewall.id
+  }
+}
+
+resource "azurerm_firewall_policy" "FirewallPolicy" {
+  name                = "afwp-connectivity-001"
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  location            = azurerm_resource_group.resourcegroup.location
+}
+*/

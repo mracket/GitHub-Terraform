@@ -1,0 +1,54 @@
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on changes to the terraform files in the path
+  # Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-001/
+  # Action will only trigger on the main branch
+  push:
+    paths:
+      - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001/*.tf'
+    branches:
+      - issue-4-Set_use_of_gateway_for_virtual_networks
+      
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This action only has one job called Connectivity
+  Connectivity:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+        
+    # Setting environment variables
+    # Variables are used by Terraform to authenticate to Azure
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Initialize Terraform
+      - name: 'Terraform init'
+        id: init
+        run: |
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
+          terraform init
+
+      # Create Terraform plan
+      - name: 'Terraform plan'
+        id: plan
+        run: |
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
+          terraform plan
+      
+      # Deploy the planned resources to Azure using Terraform
+      - name: 'Terraform apply'
+        id: apply
+        run: |
+          cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
+          terraform apply -auto-approve
