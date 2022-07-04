@@ -90,6 +90,36 @@ resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
 
   shared_key = data.azurerm_key_vault_secret.VPNSharedSecret.value
 }
+
+resource "azurerm_subnet_network_security_group_association" "nsg_association" {
+  for_each = var.Subnets
+  subnet_id                 = azurerm_subnet.subnets[each.value["name"]].id
+  network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.value["name"]].id 
+}
+resource "azurerm_route_table" "routes" {
+  name                          = "rt-${azurerm_virtual_network.vnet.name}"
+  location                      = azurerm_resource_group.resourcegroup.location
+  resource_group_name           = azurerm_resource_group.resourcegroup.name
+  disable_bgp_route_propagation = true
+
+  
+  route {
+    name                    = "udr-onprem-to-avd"
+    address_prefix          = "172.17.0.0/16"
+    next_hop_type           = "VirtualAppliance"
+    next_hop_in_ip_address  = "172.16.0.68"
+  }
+}
+
+data "azurerm_subnet" "subnets" {
+  name = "GatewaySubnet"
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+}
+resource "azurerm_subnet_route_table_association" "routetableassociation" {
+  subnet_id      = data.azurerm_subnet.subnets.id
+  route_table_id = azurerm_route_table.routes.id
+}
+
 /*
 data "azurerm_subnet" "AzureFirewallSubnet" {
   virtual_network_name = azurerm_virtual_network.vnet.name
