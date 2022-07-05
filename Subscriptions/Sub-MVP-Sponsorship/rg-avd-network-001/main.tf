@@ -32,7 +32,6 @@ resource "azurerm_subnet_network_security_group_association" "nsg_association" {
   for_each = var.Subnets
   subnet_id                 = azurerm_subnet.subnets[each.value["name"]].id
   network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.value["name"]].id 
-
 }
 resource "azurerm_route_table" "routes" {
   name                          = "rt-${azurerm_virtual_network.vnet.name}"
