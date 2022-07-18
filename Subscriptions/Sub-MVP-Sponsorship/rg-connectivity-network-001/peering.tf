@@ -1,5 +1,4 @@
 data "azurerm_virtual_network" "RemotevNet" {
-  provider                  = azurerm.Sub-MVP-Sponsorship
   name                      = var.RemotevNet.name
   resource_group_name       = var.RemotevNet.resourcegroup
 }
@@ -11,7 +10,6 @@ data "azurerm_virtual_network" "ADDS-RemotevNet" {
 }
 
 resource "azurerm_virtual_network_peering" "AVD-To-Connectivity" {
-  provider                  = azurerm.Sub-MVP-Sponsorship
   name                      = "Connectivity-To-AVD"
   resource_group_name       = azurerm_resource_group.resourcegroup.name
   virtual_network_name      = azurerm_virtual_network.vnet.name
@@ -20,7 +18,6 @@ resource "azurerm_virtual_network_peering" "AVD-To-Connectivity" {
 }
 
 resource "azurerm_virtual_network_peering" "ADDS-To-Connectivity" {
-  provider                  = azurerm.Sub-MVP-Sponsorship
   name                      = "Connectivity-To-ADDS"
   resource_group_name       = azurerm_resource_group.resourcegroup.name
   virtual_network_name      = azurerm_virtual_network.vnet.name
