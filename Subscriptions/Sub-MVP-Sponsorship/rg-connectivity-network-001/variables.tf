@@ -44,6 +44,14 @@ variable "RemotevNet" {
     "resourcegroup"     = "rg-avd-network-001"    
   }  
 }
+variable "ADDS-RemotevNet" {
+  default = {
+    "connectionname"    = "Connectivity-To-ADDS"
+    "name"              = "vnet-sharedservices-001"
+    "resourcegroup"     = "rg-sharedservices-network-001"  
+  }  
+}
+
 variable "AzureFirewallName" {
   type = string
   default = "afw-connectivity-001"
