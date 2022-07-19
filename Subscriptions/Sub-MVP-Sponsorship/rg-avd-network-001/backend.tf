@@ -7,7 +7,7 @@ terraform {
   }
   backend "azurerm" {
     resource_group_name     = "rg-terraform-state-001"
-    storage_account_name    = "cloudninjaterraformstate"
+    storage_account_name    = "cloudninjatfstate"
     container_name          = "tfstate"
     key                     = "GitHub-Terraform-rg-avd-network-001"
   }
