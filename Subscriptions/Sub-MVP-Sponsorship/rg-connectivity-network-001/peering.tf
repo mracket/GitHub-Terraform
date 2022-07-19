@@ -1,3 +1,4 @@
+/*
 data "azurerm_virtual_network" "RemotevNet" {
   name                      = var.RemotevNet.name
   resource_group_name       = var.RemotevNet.resourcegroup
@@ -23,3 +24,4 @@ resource "azurerm_virtual_network_peering" "ADDS-To-Connectivity" {
   remote_virtual_network_id = data.azurerm_virtual_network.ADDS-RemotevNet.id
   allow_gateway_transit     = true  
 }
+*/
