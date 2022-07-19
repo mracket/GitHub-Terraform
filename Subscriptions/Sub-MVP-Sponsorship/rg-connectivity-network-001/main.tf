@@ -1,16 +1,16 @@
-data "azurerm_key_vault" "kv-cloudninja-vpn-001" {
-  name                = "kv-cloudninja-vpn-001"
+data "azurerm_key_vault" "kv-cloudninja-vpn-002" {
+  name                = "kv-cloudninja-vpn-002"
   resource_group_name = "rg-keyvault-001"
 }
 
 data "azurerm_key_vault_secret" "VPNSharedSecret" {
   name         = "VPNSharedSecret"
-  key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-001.id
+  key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-002.id
 }
 
 data "azurerm_key_vault_secret" "PublicIP" {
   name         = "PublicIP"
-  key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-001.id
+  key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-002.id
 }
 
 resource "azurerm_resource_group" "resourcegroup" {
