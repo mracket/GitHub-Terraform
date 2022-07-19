@@ -36,3 +36,5 @@ variable "RemotevNet" {
     "resourcegroup"     = "rg-connectivity-network-001"    
   }  
 }
+
+
