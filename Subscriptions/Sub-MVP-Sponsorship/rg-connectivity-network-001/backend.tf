@@ -15,8 +15,3 @@ terraform {
 provider "azurerm" {
   features {}
 }
-provider "azurerm" {
-  alias = "Sub-MVP-Sponsorship-Credits"
-  subscription_id = "dad8b126-305d-4950-bdcf-fc18f996dd94"
-  features {}
-}

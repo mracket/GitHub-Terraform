@@ -4,7 +4,6 @@ data "azurerm_virtual_network" "RemotevNet" {
 }
 
 data "azurerm_virtual_network" "ADDS-RemotevNet" {
-  provider                  = azurerm.Sub-MVP-Sponsorship-Credits
   name                      = var.ADDS-RemotevNet.name
   resource_group_name       = var.ADDS-RemotevNet.resourcegroup  
 }
