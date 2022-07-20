@@ -32,8 +32,7 @@ resource "azurerm_subnet" "subnets" {
   name                 = each.value["name"]
   resource_group_name  = azurerm_resource_group.resourcegroup.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = each.value["prefix"]
-  
+  address_prefixes     = each.value["prefix"]  
   depends_on = [
     azurerm_virtual_network.vnet
   ] 
@@ -69,6 +68,9 @@ resource "azurerm_virtual_network_gateway" "VPN-Gateway" {
   timeouts {
     create = "120m"
   }
+  depends_on = [
+    azurerm_subnet.subnets
+  ]
 }
 
 resource "azurerm_local_network_gateway" "LocalGateway" {
