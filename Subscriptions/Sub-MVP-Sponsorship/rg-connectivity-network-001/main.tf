@@ -109,10 +109,16 @@ data "azurerm_subnet" "subnets" {
   name                  = "GatewaySubnet"
   virtual_network_name  = azurerm_virtual_network.vnet.name
   resource_group_name   = azurerm_resource_group.resourcegroup.name
+  depends_on = [
+    azurerm_subnet.subnets
+  ]
 }
 resource "azurerm_subnet_route_table_association" "routetableassociation" {
   subnet_id      = data.azurerm_subnet.subnets.id
   route_table_id = azurerm_route_table.routes.id
+  depends_on = [
+    azurerm_subnet.subnets
+  ]
 }
 
 /*
