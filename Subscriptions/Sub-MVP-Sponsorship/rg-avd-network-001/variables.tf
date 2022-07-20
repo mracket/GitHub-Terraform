@@ -1,6 +1,6 @@
 variable "Location" {
     type                = string
-    default             = "WestEurope"  
+    default             = "NorwayEast"  
 }
 
 variable "ResourceGroup" {
