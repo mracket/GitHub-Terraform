@@ -14,8 +14,7 @@ resource "azurerm_subnet" "subnets" {
   name                 = each.value["name"]
   resource_group_name  = azurerm_resource_group.resourcegroup.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = each.value["prefix"]
-  
+  address_prefixes     = each.value["prefix"]  
   depends_on = [
     azurerm_virtual_network.vnet
   ] 
@@ -32,6 +31,9 @@ resource "azurerm_subnet_network_security_group_association" "nsg_association" {
   for_each = var.Subnets
   subnet_id                 = azurerm_subnet.subnets[each.value["name"]].id
   network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.value["name"]].id 
+  depends_on = [
+    azurerm_subnet.subnets
+  ]
 }
 resource "azurerm_route_table" "routes" {
   name                          = "rt-${azurerm_virtual_network.vnet.name}"
@@ -67,4 +69,7 @@ resource "azurerm_subnet_route_table_association" "routetableassociation" {
   for_each = var.Subnets
   subnet_id      = azurerm_subnet.subnets[each.value["name"]].id
   route_table_id = azurerm_route_table.routes.id
+  depends_on = [
+    azurerm_subnet.subnets
+  ]
 }
