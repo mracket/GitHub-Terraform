@@ -105,6 +105,12 @@ resource "azurerm_route_table" "routes" {
     next_hop_type           = "VirtualAppliance"
     next_hop_in_ip_address  = "172.16.0.68"
   }
+  route {
+    name                    = "udr-onprem-to-sharedservice"
+    address_prefix          = "172.18.0.0/16"
+    next_hop_type           = "VirtualAppliance"
+    next_hop_in_ip_address  = "172.16.0.68"
+  }
 }
 
 data "azurerm_subnet" "subnets" {
