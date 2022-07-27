@@ -38,6 +38,13 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
       destination_addresses = ["192.168.1.0/24", "192.168.10.0/24"]
       destination_ports     = ["*"] 
     }
+    rule {
+      name                  = "rule-avd-to-storageaccount"
+      protocols             = ["TCP"]
+      source_addresses      = ["172.17.0.0/16"]
+      destination_addresses = ["*"]
+      destination_ports     = ["445"] 
+    }
   }    
 }
 resource "azurerm_firewall_policy_rule_collection_group" "FirewallSharedServicesRuleCollection" {
@@ -73,6 +80,13 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallSharedServices
       source_addresses      = ["172.18.0.0/16"]
       destination_addresses = ["192.168.1.0/24", "192.168.10.0/24"]
       destination_ports     = ["*"] 
+    }
+    rule {
+      name                  = "rule-sharedservice-to-storageaccount"
+      protocols             = ["TCP"]
+      source_addresses      = ["172.18.0.0/16"]
+      destination_addresses = ["*"]
+      destination_ports     = ["445"] 
     }
   }
 }
