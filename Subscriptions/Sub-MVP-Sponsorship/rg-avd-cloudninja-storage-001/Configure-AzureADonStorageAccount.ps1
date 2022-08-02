@@ -1,12 +1,32 @@
 param (
-    $resourceGroupName,
-    $storageAccountName
+  $tenantId,
+  $subscriptionId,
+  $resourceGroupName,
+  $storageAccountName
 )
+
+$Uri = ('https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Storage/storageAccounts/{2}?api-version=2021-04-01' -f $subscriptionId, $resourceGroupName, $storageAccountName);
+
+$json = @{properties=@{azureFilesIdentityBasedAuthentication=@{directoryServiceOptions="AADKERB"}}};
+$json = $json | ConvertTo-Json -Depth 99
+
+$token = $(Get-AzAccessToken).Token
+$headers = @{ Authorization="Bearer $token" }
+
+try {
+    Invoke-RestMethod -Uri $Uri -ContentType 'application/json' -Method PATCH -Headers $Headers -Body $json;
+} catch {
+    Write-Host $_.Exception.ToString()
+    Write-Error -Message "Caught exception setting Storage Account directoryServiceOptions=AADKERB: $_" -ErrorAction Stop
+}
+
+New-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $storageAccountName -KeyName kerb1 -ErrorAction Stop
 
 $kerbKey1 = Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $storageAccountName -ListKerbKey | Where-Object { $_.KeyName -like "kerb1" }
 $aadPasswordBuffer = [System.Linq.Enumerable]::Take([System.Convert]::FromBase64String($kerbKey1.Value), 32);
 $password = "kk:" + [System.Convert]::ToBase64String($aadPasswordBuffer);
 
+#Connect-AzureAD
 $azureAdTenantDetail = Get-AzureADTenantDetail;
 $azureAdPrimaryDomain = ($azureAdTenantDetail.VerifiedDomains | Where-Object {$_._Default -eq $true}).Name
 

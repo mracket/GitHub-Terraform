@@ -67,34 +67,24 @@ resource "azurerm_virtual_desktop_workspace_application_group_association" "remo
   application_group_id = azurerm_virtual_desktop_application_group.remoteapp.id
 }
 
-resource "azurerm_storage_account" "FSLogixStorageAccount" {
-  name                      = var.FSLogixStorageAccount
-  location                  = azurerm_resource_group.resourcegroup.location
-  resource_group_name       = azurerm_resource_group.resourcegroup.name
-  account_tier              = "Premium"
-  account_replication_type  = "LRS"
-  account_kind              = "StorageV2"
-}
 
 data "azuread_client_config" "AzureAD" {}
 
-resource "azuread_group" "AVDGroup" {
-  display_name     = "ACC-AVD-Users"
-  owners           = [data.azuread_client_config.AzureAD.object_id]
-  security_enabled = true
+data "azuread_group" "AVDGroup" {
+  display_name     = "ACC_AVD_Users"  
 }
 resource "azurerm_role_assignment" "AVDGroupDesktopAssignment" {
   scope                = azurerm_virtual_desktop_application_group.desktopapp.id
   role_definition_name = "Desktop Virtualization User"
-  principal_id         = azuread_group.AVDGroup.object_id
+  principal_id         = data.azuread_group.AVDGroup.object_id
 }
 resource "azurerm_role_assignment" "AVDGroupRemoteAppAssignment" {
   scope                = azurerm_virtual_desktop_application_group.remoteapp.id
   role_definition_name = "Desktop Virtualization User"
-  principal_id         = azuread_group.AVDGroup.object_id
+  principal_id         = data.azuread_group.AVDGroup.object_id
 }
 resource "azurerm_role_assignment" "RBACAssignment" {
   scope                = azurerm_resource_group.resourcegroup.id
   role_definition_name = "Virtual Machine User Login"
-  principal_id         = azuread_group.AVDGroup.object_id
+  principal_id         = data.azuread_group.AVDGroup.object_id
 }
