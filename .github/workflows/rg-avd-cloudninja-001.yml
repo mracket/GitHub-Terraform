@@ -31,7 +31,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
+      
+      
       # Initialize Terraform
       - name: 'Terraform init'
         id: init
