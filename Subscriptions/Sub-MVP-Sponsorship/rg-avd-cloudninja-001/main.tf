@@ -54,6 +54,7 @@ resource "azurerm_virtual_desktop_application_group" "desktopapp" {
   host_pool_id  = azurerm_virtual_desktop_host_pool.hostpool.id
   friendly_name = "Desktop App group for Cloudninja"
   description   = "Desktop App group for Cloudninja"
+
 }
 
 resource "azurerm_virtual_desktop_workspace_application_group_association" "desktopapp" {
@@ -64,4 +65,27 @@ resource "azurerm_virtual_desktop_workspace_application_group_association" "desk
 resource "azurerm_virtual_desktop_workspace_application_group_association" "remoteapp" {
   workspace_id         = azurerm_virtual_desktop_workspace.workspace.id
   application_group_id = azurerm_virtual_desktop_application_group.remoteapp.id
+}
+
+data "azuread_client_config" "AzureAD" {}
+
+resource "azuread_group" "AVDGroup" {
+  display_name     = "ACC-AVD-Users"
+  owners           = [data.azuread_client_config.AzureAD.object_id]
+  security_enabled = true
+}
+resource "azurerm_role_assignment" "AVDGroupDesktopAssignment" {
+  scope                = azurerm_virtual_desktop_application_group.desktopapp.id
+  role_definition_name = "Desktop Virtualization User"
+  principal_id         = azuread_group.AVDGroup.object_id
+}
+resource "azurerm_role_assignment" "AVDGroupRemoteAppAssignment" {
+  scope                = azurerm_virtual_desktop_application_group.remoteapp.id
+  role_definition_name = "Desktop Virtualization User"
+  principal_id         = azuread_group.AVDGroup.object_id
+}
+resource "azurerm_role_assignment" "RBACAssignment" {
+  scope                = azurerm_resource_group.resourcegroup.id
+  role_definition_name = "Virtual Machine User Login"
+  principal_id         = azuread_group.AVDGroup.object_id
 }
