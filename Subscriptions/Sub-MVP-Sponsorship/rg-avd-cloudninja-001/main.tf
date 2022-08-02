@@ -65,12 +65,3 @@ resource "azurerm_virtual_desktop_workspace_application_group_association" "remo
   workspace_id         = azurerm_virtual_desktop_workspace.workspace.id
   application_group_id = azurerm_virtual_desktop_application_group.remoteapp.id
 }
-
-resource "azurerm_storage_account" "FSLogixStorageAccount" {
-  name                      = var.FSLogixStorageAccount
-  location                  = azurerm_resource_group.resourcegroup.location
-  resource_group_name       = azurerm_resource_group.resourcegroup.name
-  account_tier              = "Premium"
-  account_replication_type  = "LRS"
-  account_kind              = "StorageV2"
-}
