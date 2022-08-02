@@ -15,6 +15,7 @@ resource "azurerm_subnet" "subnets" {
   resource_group_name  = azurerm_resource_group.resourcegroup.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = each.value["prefix"]  
+  service_endpoints    = [ "Microsoft.Storage" ]
   depends_on = [
     azurerm_virtual_network.vnet
   ] 
