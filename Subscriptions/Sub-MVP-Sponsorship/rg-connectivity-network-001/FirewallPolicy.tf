@@ -93,7 +93,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallCitrixRuleColl
     }
     rule {
       name                  = "rule-citrix-to-sharedservices"
-      protocols             = ["TCP"]
+      protocols             = ["TCP","UDP"]
       source_addresses      = ["172.19.0.0/16"]
       destination_addresses = ["172.18.0.0/16"]
       destination_ports     = ["*"] 
