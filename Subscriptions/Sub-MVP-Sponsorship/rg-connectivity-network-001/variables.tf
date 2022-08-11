@@ -52,6 +52,14 @@ variable "ADDS-RemotevNet" {
   }  
 }
 
+variable "Citrix-RemotevNet" {
+  default = {
+    "connectionname"    = "Connectivity-To-Citrix"
+    "name"              = "vnet-citrix-001"
+    "resourcegroup"     = "rg-citrix-network-001"  
+  }  
+}
+
 variable "AzureFirewallName" {
   type = string
   default = "afw-connectivity-001"
