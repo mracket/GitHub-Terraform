@@ -48,6 +48,51 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallAVDRuleCollect
     }
   }    
 }
+
+resource "azurerm_firewall_policy_rule_collection_group" "FirewallCitrixRuleCollection" {
+  name               = "rcg-citrix"
+  firewall_policy_id = data.azurerm_firewall_policy.AzureFirewallPolicy.id
+  priority           = 3000
+  application_rule_collection {
+    name     = "rc_citrix_webbrowsing"
+    priority = 5000
+    action   = "Allow"
+    rule {
+      name = "rule_citrix_webbrowsing"
+      protocols {
+        type = "Http"
+        port = 80
+      }
+      protocols {
+        type = "Https"
+        port = 443
+      }      
+      source_addresses  = ["172.19.0.0/16"]
+      destination_fqdns = ["*"]
+    }
+  }
+
+  network_rule_collection {
+    name     = "rc_citrix"
+    priority = 2000
+    action   = "Allow"
+    rule {
+      name                  = "rule-citrix-to-onpremises"
+      protocols             = ["TCP", "UDP","ICMP"]
+      source_addresses      = ["172.19.0.0/16"]
+      destination_addresses = ["192.168.1.0/24", "192.168.10.0/24"]
+      destination_ports     = ["*"] 
+    }
+
+    rule {
+      name                  = "rule-citrix-to-storageaccount"
+      protocols             = ["TCP"]
+      source_addresses      = ["172.19.0.0/16"]
+      destination_addresses = ["*"]
+      destination_ports     = ["445"] 
+    }
+  }    
+}
 resource "azurerm_firewall_policy_rule_collection_group" "FirewallSharedServicesRuleCollection" {
   name               = "rcg-sharedservices"
   firewall_policy_id = data.azurerm_firewall_policy.AzureFirewallPolicy.id
@@ -76,7 +121,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallSharedServices
     priority = 1000
     action   = "Allow"
     rule {
-      name                  = "rule-avd-to-onpremises"
+      name                  = "rule-sharedservice-to-onpremises"
       protocols             = ["TCP", "UDP","ICMP"]
       source_addresses      = ["172.18.0.0/16"]
       destination_addresses = ["192.168.1.0/24", "192.168.10.0/24"]
@@ -105,7 +150,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallOnPremisesRule
       name                  = "rule-onpremises-to-avd"
       protocols             = ["TCP", "UDP", "ICMP"]
       source_addresses      = ["192.168.1.0/24", "192.168.10.0/24"]
-      destination_addresses = ["172.17.0.0/16","172.18.0.0/16"]
+      destination_addresses = ["172.17.0.0/16","172.18.0.0/16","172.19.0.0/16"]
       destination_ports     = ["*"] 
     }
   } 
