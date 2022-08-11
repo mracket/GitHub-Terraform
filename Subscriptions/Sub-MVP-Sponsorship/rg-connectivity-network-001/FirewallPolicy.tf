@@ -91,6 +91,13 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallCitrixRuleColl
       destination_addresses = ["*"]
       destination_ports     = ["445"] 
     }
+    rule {
+      name                  = "rule-citrix-to-sharedservices"
+      protocols             = ["TCP"]
+      source_addresses      = ["172.19.0.0/16"]
+      destination_addresses = ["172.18.0.0/16"]
+      destination_ports     = ["*"] 
+    }
   }    
 }
 resource "azurerm_firewall_policy_rule_collection_group" "FirewallSharedServicesRuleCollection" {
