@@ -31,17 +31,7 @@ jobs:
         cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
         terraform init
   
-    # Create Terraform plan
-    - name: 'Terraform plan'
-      id: plan
-      env:
-        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
-        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        ARM_USE_OIDC: true
-      run: |
-        cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
-        terraform plan
+
 
 
     # Deploy the planned resources to Azure using Terraform
