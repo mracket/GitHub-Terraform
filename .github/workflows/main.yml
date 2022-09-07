@@ -16,8 +16,24 @@ jobs:
           tenant-id:  ${{ secrets.AZURE_TENANT_ID }}
           subscription-id:  ${{ secrets.MVP_SUBSCRIPTION }} 
   
-    - name: 'Run Azure CLI commands'
+    - uses: actions/checkout@v3
+
+    # Initialize Terraform
+    - name: 'Terraform init'
+      id: init
       run: |
-          az account show
-          az group list
-          pwd
+        cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
+        terraform init
+    # Create Terraform plan
+    - name: 'Terraform plan'
+      id: plan
+      run: |
+        cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
+        terraform plan
+
+    # Deploy the planned resources to Azure using Terraform
+    - name: 'Terraform apply'
+      id: apply
+      run: |
+        cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
+        terraform apply -auto-approve
