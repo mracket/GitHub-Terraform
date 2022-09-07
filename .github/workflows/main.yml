@@ -8,12 +8,6 @@ permissions:
 jobs: 
   build-and-deploy:
     runs-on: ubuntu-latest
-    
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ARM_USE_OIDC: true
       
     steps:
     - name: 'Az CLI login'
@@ -28,6 +22,11 @@ jobs:
     # Initialize Terraform
     - name: 'Terraform init'
       id: init
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        ARM_USE_OIDC: true
       run: |
         cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
         terraform init
@@ -35,6 +34,11 @@ jobs:
     # Create Terraform plan
     - name: 'Terraform plan'
       id: plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        ARM_USE_OIDC: true
       run: |
         cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
         terraform plan
@@ -43,6 +47,11 @@ jobs:
     # Deploy the planned resources to Azure using Terraform
     - name: 'Terraform apply'
       id: apply
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        ARM_USE_OIDC: true
       run: |
         cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
         terraform apply -auto-approve
