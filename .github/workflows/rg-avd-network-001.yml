@@ -11,7 +11,10 @@ on:
       
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+  
+permissions:
+      id-token: write
+      contents: read
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This action only has one job called Connectivity
@@ -21,14 +24,16 @@ jobs:
         
     # Setting environment variables
     # Variables are used by Terraform to authenticate to Azure
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      
+       
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id:  ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id:  ${{ secrets.MVP_SUBSCRIPTION }} 
+          enable-AzPSSession: true
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 

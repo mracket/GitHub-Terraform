@@ -1,0 +1,49 @@
+name: Run Azure Login with OpenID Connect
+on: [push]
+
+permissions:
+      id-token: write
+      contents: read
+      
+jobs: 
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_USE_OIDC: true
+      
+    steps:
+    - name: 'Az CLI login'
+      uses: azure/login@v1
+      with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id:  ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id:  ${{ secrets.MVP_SUBSCRIPTION }} 
+  
+    - uses: actions/checkout@v3
+
+    # Initialize Terraform
+    - name: 'Terraform init'
+      id: init
+      run: |
+        cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
+        terraform init
+  
+    # Create Terraform plan
+    - name: 'Terraform plan'
+      id: plan
+      run: |
+        cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
+        terraform plan
+
+
+    # Deploy the planned resources to Azure using Terraform
+    - name: 'Terraform apply'
+      id: apply
+      run: |
+        cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
+        terraform apply -auto-approve
+
