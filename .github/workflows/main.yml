@@ -24,12 +24,22 @@ jobs:
       run: |
         cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
         terraform init
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        ARM_USE_OIDC: true
     # Create Terraform plan
     - name: 'Terraform plan'
       id: plan
       run: |
         cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
         terraform plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        ARM_USE_OIDC: true
 
     # Deploy the planned resources to Azure using Terraform
     - name: 'Terraform apply'
@@ -37,3 +47,8 @@ jobs:
       run: |
         cd Subscriptions/Sub-MVP-Sponsorship/rg-avd-network-001
         terraform apply -auto-approve
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        ARM_USE_OIDC: true
