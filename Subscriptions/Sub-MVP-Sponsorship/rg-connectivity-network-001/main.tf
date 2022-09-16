@@ -19,16 +19,16 @@ resource "azurerm_resource_group" "resourcegroup" {
 }
 
 resource "azurerm_network_security_group" "networksecuritygroups" {
-  for_each = { for k, v in var.Subnets : k => v if v.name != "gatewaysubnet" || v.name != "azurefirewallsubnet" || v.name != "azurefirewallmanagementsubnet"}
+  for_each = { for k, v in var.Subnets : k => v if v.name != "GatewaySubnet" || v.name != "AzureFirewallSubnet" || v.name != "AzureFirewallManagementSubnet"}
   name                = "nsg-${each.value["name"]}"
   location            = azurerm_resource_group.resourcegroup.location
   resource_group_name = azurerm_resource_group.resourcegroup.name  
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg_association" {
-  for_each = var.Subnets
-  subnet_id                 = azurerm_subnet.subnets[each.value["name"]].id
-  network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.value["name"]].id 
+  for_each = { for k, v in var.Subnets : k => v if v.name != "GatewaySubnet" || v.name != "AzureFirewallSubnet" || v.name != "AzureFirewallManagementSubnet"}
+  subnet_id                 = azurerm_subnet.subnets[each.key].id
+  network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.key].id 
   depends_on = [
     azurerm_subnet.subnets
   ]
@@ -50,7 +50,8 @@ resource "azurerm_subnet" "subnets" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = each.value["prefix"]  
   depends_on = [
-    azurerm_virtual_network.vnet
+    azurerm_virtual_network.vnet,
+    azurerm_network_security_group.networksecuritygroups
   ] 
 }
 
