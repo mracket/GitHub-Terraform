@@ -26,6 +26,14 @@ variable "Subnets" {
             "name" = "AzureFirewallSubnet"
             "prefix" = ["172.16.0.64/26"]
         }
+         "AzureFirewallManagementSubnet" = {
+            "name" = "AzureFirewallManagementSubnet"
+            "prefix" = ["172.16.1.128/26"]
+        }
+        "PrivateDNS" = {
+            "name" = "snet-private-dns-resolver-001"
+            "prefix" = ["172.16.192./29"]
+        }
     }
 }
 
