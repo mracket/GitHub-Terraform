@@ -1,3 +1,5 @@
+name: Deploy network connectivity
+
 # Controls when the workflow will run
 on:
   # Triggers the workflow on changes to the terraform files in the path
@@ -7,11 +9,15 @@ on:
     paths:
       - 'Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001/*.tf'
     branches:
-      - main
-      
+      - main 
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+      id-token: write
+      contents: read
+          
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This action only has one job called Connectivity
