@@ -10,7 +10,7 @@ terraform {
     storage_account_name    = "cloudninjatfstate"
     container_name          = "tfstate"
     key                     = "GitHub-Terraform-rg-connectivity-001"
-    subscription_id         = "6ef183f0-e0e1-40a7-8bb3-10e7b50b7d3b"
+    subscription_id         = "dad8b126-305d-4950-bdcf-fc18f996dd94"
   }
 }
 provider "azurerm" {
