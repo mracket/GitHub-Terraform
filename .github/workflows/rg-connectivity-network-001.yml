@@ -37,7 +37,7 @@ jobs:
         id: init
         run: |
           cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
-          terraform init
+          terraform init -var="stateSubscription=${{ secrets.MVP_SUBSCRIPTION }}"
 
       # Create Terraform plan
       - name: 'Terraform plan'
