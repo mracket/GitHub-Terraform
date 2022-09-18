@@ -15,13 +15,13 @@ terraform {
   }
 }
 provider "azurerm" {
-  use_oidc = true
-  features {
-    
-  }
+  alias           = "connectivity"
+  use_oidc        = true
+  features {}
 }
 provider "azurerm" {
-  alias = "management"  
+  alias           = "management"  
   subscription_id = "dad8b126-305d-4950-bdcf-fc18f996dd94"
+  use_oidc        = true
   features {}
 }
