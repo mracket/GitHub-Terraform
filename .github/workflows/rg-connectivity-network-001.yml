@@ -43,19 +43,29 @@ jobs:
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id:  ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id:  ${{ secrets.MVP_SUBSCRIPTION }} 
+          subscription-id:  ${{ secrets.SUB_CONNECTIVITY_001 }} 
           enable-AzPSSession: true
 
       # Initialize Terraform
       - name: 'Terraform init'
         id: init
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUB_CONNECTIVITY_001 }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: true
         run: |
           cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
-          terraform init -var="stateSubscription=${{ secrets.MVP_SUBSCRIPTION }}"
+          terraform init 
 
       # Create Terraform plan
       - name: 'Terraform plan'
         id: plan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUB_CONNECTIVITY_001 }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: true
         run: |
           cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
           terraform plan
@@ -63,6 +73,11 @@ jobs:
       # Deploy the planned resources to Azure using Terraform
       - name: 'Terraform apply'
         id: apply
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUB_CONNECTIVITY_001 }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: true
         run: |
           cd Subscriptions/Sub-MVP-Sponsorship/rg-connectivity-network-001
           terraform apply -auto-approve
