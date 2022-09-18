@@ -155,7 +155,6 @@ resource "azurerm_subnet_route_table_association" "routetableassociation" {
   ]
 }
 
-/*
 data "azurerm_subnet" "AzureFirewallSubnet" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   name = "AzureFirewallSubnet"
@@ -190,4 +189,3 @@ resource "azurerm_firewall_policy" "FirewallPolicy" {
   resource_group_name = azurerm_resource_group.resourcegroup.name
   location            = azurerm_resource_group.resourcegroup.location
 }
-*/

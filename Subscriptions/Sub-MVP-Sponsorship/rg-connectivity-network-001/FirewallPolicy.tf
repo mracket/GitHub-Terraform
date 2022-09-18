@@ -1,4 +1,3 @@
-/*
 data "azurerm_firewall_policy" "AzureFirewallPolicy" {
     name = "afwp-connectivity-001"
     resource_group_name = azurerm_resource_group.resourcegroup.name
@@ -163,4 +162,4 @@ resource "azurerm_firewall_policy_rule_collection_group" "FirewallOnPremisesRule
     }
   } 
 }
-*/
+
