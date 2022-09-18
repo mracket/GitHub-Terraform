@@ -7,16 +7,19 @@ data "azurerm_key_vault" "kv-cloudninja-vpn-002" {
 data "azurerm_key_vault_secret" "VPNSharedSecret" {
   name         = "VPNSharedSecret"
   key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-002.id
+  provider            = azurerm.management
 }
 
 data "azurerm_key_vault_secret" "PublicIP" {
   name         = "PublicIP"
   key_vault_id = data.azurerm_key_vault.kv-cloudninja-vpn-002.id
+  provider            = azurerm.management
 }
 
 resource "azurerm_resource_group" "resourcegroup" {
     name        = var.ResourceGroup
     location    = var.Location
+    provider            = azurerm.connectivity
 }
 
 resource "azurerm_network_security_group" "networksecuritygroups" {
