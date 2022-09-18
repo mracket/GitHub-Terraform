@@ -1,7 +1,7 @@
 data "azurerm_key_vault" "kv-cloudninja-vpn-002" {
   name                = "kv-cloudninja-vpn-002"
   resource_group_name = "rg-keyvault-001"
-  provider            = management
+  provider            = azurerm.management
 }
 
 data "azurerm_key_vault_secret" "VPNSharedSecret" {
@@ -24,6 +24,7 @@ resource "azurerm_network_security_group" "networksecuritygroups" {
   name                = "nsg-${each.value["name"]}"
   location            = azurerm_resource_group.resourcegroup.location
   resource_group_name = azurerm_resource_group.resourcegroup.name  
+  provider            = azurerm.connectivity
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg_association" {
@@ -33,6 +34,7 @@ resource "azurerm_subnet_network_security_group_association" "nsg_association" {
   depends_on = [
     azurerm_subnet.subnets
   ]
+  provider            = azurerm.connectivity
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -40,6 +42,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = var.vnet.address_space
   location            = azurerm_resource_group.resourcegroup.location
   resource_group_name = azurerm_resource_group.resourcegroup.name
+  provider            = azurerm.connectivity
 }
 
 resource "azurerm_subnet" "subnets" {
@@ -53,6 +56,7 @@ resource "azurerm_subnet" "subnets" {
     azurerm_virtual_network.vnet,
     azurerm_network_security_group.networksecuritygroups
   ] 
+  provider            = azurerm.connectivity
 }
 
 resource "azurerm_public_ip" "VPN-PublicIP" {
@@ -62,6 +66,7 @@ resource "azurerm_public_ip" "VPN-PublicIP" {
 
   allocation_method = "Dynamic"
   depends_on = [azurerm_virtual_network.vnet]
+  provider            = azurerm.connectivity
 }
 
 
@@ -89,6 +94,7 @@ resource "azurerm_virtual_network_gateway" "VPN-Gateway" {
   depends_on = [
     azurerm_subnet.subnets
   ]
+  provider            = azurerm.connectivity
 }
 
 resource "azurerm_local_network_gateway" "LocalGateway" {
@@ -97,6 +103,7 @@ resource "azurerm_local_network_gateway" "LocalGateway" {
   resource_group_name = azurerm_resource_group.resourcegroup.name
   gateway_address     = data.azurerm_key_vault_secret.PublicIP.value
   address_space       = [var.LocalGateway.subnet2,var.LocalGateway.subnet1]
+  provider            = azurerm.connectivity
 }
 
 resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
@@ -109,6 +116,7 @@ resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
   local_network_gateway_id   = azurerm_local_network_gateway.LocalGateway.id
 
   shared_key = data.azurerm_key_vault_secret.VPNSharedSecret.value
+  provider            = azurerm.connectivity
 }
 
 
@@ -137,7 +145,7 @@ resource "azurerm_route_table" "routes" {
     next_hop_type           = "VirtualAppliance"
     next_hop_in_ip_address  = "172.16.0.68"
   }
-  
+  provider            = azurerm.connectivity
 }
 
 data "azurerm_subnet" "subnets" {
@@ -147,6 +155,7 @@ data "azurerm_subnet" "subnets" {
   depends_on = [
     azurerm_subnet.subnets
   ]
+  provider            = azurerm.connectivity
 }
 resource "azurerm_subnet_route_table_association" "routetableassociation" {
   subnet_id      = data.azurerm_subnet.subnets.id
@@ -154,6 +163,7 @@ resource "azurerm_subnet_route_table_association" "routetableassociation" {
   depends_on = [
     azurerm_subnet.subnets
   ]
+  provider            = azurerm.connectivity
 }
 
 /*
