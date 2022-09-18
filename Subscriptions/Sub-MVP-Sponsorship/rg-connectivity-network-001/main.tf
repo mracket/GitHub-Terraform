@@ -19,14 +19,14 @@ resource "azurerm_resource_group" "resourcegroup" {
 }
 
 resource "azurerm_network_security_group" "networksecuritygroups" {
-  for_each = { for k, v in var.Subnets : k => v if k.name != "GatewaySubnet" || k.name != "AzureFirewallSubnet" || k.name != "AzureFirewallManagementSubnet"}
+  for_each = { for k, v in var.Subnets : k => v if v.name != "GatewaySubnet" && v.name != "AzureFirewallSubnet" && v.name != "AzureFirewallManagementSubnet"}
   name                = "nsg-${each.value["name"]}"
   location            = azurerm_resource_group.resourcegroup.location
   resource_group_name = azurerm_resource_group.resourcegroup.name  
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg_association" {
-  for_each = { for k, v in var.Subnets : k => v if k.name != "GatewaySubnet" || k.name != "AzureFirewallSubnet" || k.name != "AzureFirewallManagementSubnet"}
+  for_each = { for k, v in var.Subnets : k => v if v.name != "GatewaySubnet" && v.name != "AzureFirewallSubnet" && v.name != "AzureFirewallManagementSubnet"}
   subnet_id                 = azurerm_subnet.subnets[each.key].id
   network_security_group_id = azurerm_network_security_group.networksecuritygroups[each.key].id 
   depends_on = [
