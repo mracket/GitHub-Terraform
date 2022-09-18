@@ -24,7 +24,7 @@ jobs:
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.MVP_SUBSCRIPTION }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUB_CONNECTIVITY_001 }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       
     # Steps represent a sequence of tasks that will be executed as part of the job
