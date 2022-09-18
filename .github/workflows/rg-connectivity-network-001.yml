@@ -21,16 +21,24 @@ jobs:
         
     # Setting environment variables
     # Variables are used by Terraform to authenticate to Azure
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.SUB_CONNECTIVITY_001 }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    #env:
+    #  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+    #  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+    #  ARM_SUBSCRIPTION_ID: ${{ secrets.SUB_CONNECTIVITY_001 }}
+    #  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+
+      - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id:  ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id:  ${{ secrets.MVP_SUBSCRIPTION }} 
+          enable-AzPSSession: true
 
       # Initialize Terraform
       - name: 'Terraform init'
