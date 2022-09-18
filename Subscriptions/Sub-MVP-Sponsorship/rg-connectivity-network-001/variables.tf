@@ -32,7 +32,7 @@ variable "Subnets" {
         }
         "PrivateDNS" = {
             "name" = "snet-private-dns-resolver-001"
-            "prefix" = ["172.16.192./29"]
+            "prefix" = ["172.16.1.192/29"]
         }
     }
 }
