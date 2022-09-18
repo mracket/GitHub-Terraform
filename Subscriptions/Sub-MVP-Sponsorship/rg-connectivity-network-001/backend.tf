@@ -10,6 +10,7 @@ terraform {
     storage_account_name    = "cloudninjatfstate"
     container_name          = "tfstate"
     key                     = "GitHub-Terraform-rg-connectivity-001"
+    use_oidc                = true
     subscription_id         = "dad8b126-305d-4950-bdcf-fc18f996dd94"
   }
 }
