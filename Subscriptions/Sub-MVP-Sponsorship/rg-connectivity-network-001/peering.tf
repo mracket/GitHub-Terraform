@@ -1,16 +1,19 @@
 data "azurerm_virtual_network" "RemotevNet" {
   name                      = var.RemotevNet.name
   resource_group_name       = var.RemotevNet.resourcegroup
+  provider                  = azurerm.management
 }
 
 data "azurerm_virtual_network" "ADDS-RemotevNet" {
   name                      = var.ADDS-RemotevNet.name
   resource_group_name       = var.ADDS-RemotevNet.resourcegroup  
+  provider                  = azurerm.management
 }
 
 data "azurerm_virtual_network" "Citrix-RemotevNet" {
   name                      = var.Citrix-RemotevNet.name
   resource_group_name       = var.Citrix-RemotevNet.resourcegroup  
+  provider                  = azurerm.management
 }
 
 resource "azurerm_virtual_network_peering" "AVD-To-Connectivity" {
