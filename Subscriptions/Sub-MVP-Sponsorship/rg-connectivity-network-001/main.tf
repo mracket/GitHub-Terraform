@@ -1,6 +1,7 @@
 data "azurerm_key_vault" "kv-cloudninja-vpn-002" {
   name                = "kv-cloudninja-vpn-002"
   resource_group_name = "rg-keyvault-001"
+  provider            = management
 }
 
 data "azurerm_key_vault_secret" "VPNSharedSecret" {
