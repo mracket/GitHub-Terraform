@@ -72,7 +72,6 @@ resource "azurerm_public_ip" "VPN-PublicIP" {
   provider            = azurerm.connectivity
 }
 
-
 resource "azurerm_virtual_network_gateway" "VPN-Gateway" {
   name                = "vgw-connectivity-001"
   location            = azurerm_resource_group.resourcegroup.location
@@ -121,8 +120,6 @@ resource "azurerm_virtual_network_gateway_connection" "VPN-Connection" {
   shared_key = data.azurerm_key_vault_secret.VPNSharedSecret.value
   provider            = azurerm.connectivity
 }
-
-
 resource "azurerm_route_table" "routes" {
   name                          = "rt-${azurerm_virtual_network.vnet.name}"
   location                      = azurerm_resource_group.resourcegroup.location
